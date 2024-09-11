@@ -14,15 +14,15 @@ root.title('Clinical Patients Status Plotter')
 root.geometry("650x650")
 root.config(background = "white")
 
-combo_title = tk.Label(root, text="Select a plot type:")
+combo_title = tk.Label(root, text="Plot Type:")
 combo_title.pack()
 
-types = ["External", "Internal"]
+types = ["No ID"]
 combobox = ttk.Combobox(root, values=types)
 combobox.pack()
 
-info = tk.Label(text = "This tool takes an Excel file containing the clinical trial patients status\n\nand makes a swimmer plot pdf file in the same folder as the input"\
-        "\n\n Use the dropdown above to pick a plot type first and click the button below to choose your input file",
+info = tk.Label(text = "This tool takes an Excel file containing the clinical trial patients status\n\nand makes a swimmer plot pdf file in the current folder"\
+        "\n\n Click the button below to choose your input file, and if needed, use the dropdown above to exclude the patient IDs in the plot ",
              foreground='blue',
              background='white',
              height=20,
@@ -47,7 +47,7 @@ upload_button = tk.Button(root,
 def UploadAction():
     file_path = askopenfile(mode='r', filetypes=[('Patient Status File','*xlsx')])
     plot_type = combobox.get()
-    if plot_type == "External":
+    if plot_type == "No ID":
         output_file = "swimmer.plot.pdf"
     else:
         output_file = "swimmer.plot.withID.pdf"
@@ -99,7 +99,7 @@ def UploadAction():
     fig, ax = plt.subplots()
     ax.set_aspect(0.5)
     
-    if plot_type == "External":
+    if plot_type == "No ID":
         for i, patient in enumerate(patient_data['Cancer Type']):
             if patient_data.loc[i,'Weeks in Study(2)'] > 0:
                 ax.text(-1, 2*i, patient, ha='right', va='center', fontsize=6)
